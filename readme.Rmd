@@ -1,6 +1,6 @@
 ---
 title : " Atividade Avaliativa I "
-author : "edivan dos santos do rosaro"
+author : "Edivan dos Santos do Rosario </br>"
 date : " Estat 2021.1"
 output: github_document
 ---
@@ -14,6 +14,12 @@ View(frango_dieta)
 
 dados_co2 <- read_csv("dados/brutos/dados_co2.csv")
 View(dados_co2)
+
+dados_co2_tidy <- read_csv("dados/tidy/dados_co2_tidy.csv")
+View(dados_co2_tidy)
+
+tabela_1_4_ <- read_csv("dados/brutos/tabela 1 (4).csv")
+View(tabela_1_4_)
 
 ```
 
@@ -111,5 +117,96 @@ Analisando esse gráfico, é possível perceber que a disposição dos valores �
 
 *Questao 06* 
 
-vaos tentar--
+
+
+*b)* Não, pois o tidy apresenta
+
+**c**
+
+```{r}
+dados_co2 %>%                
+pivot_longer(
+1:13,                
+names_to = "ano",    
+values_to = "dez")  
+  
+```
+
+**d** 
+
+```{r}
+dados_co2 <- read_csv("dados/brutos/dados_co2.csv")
+
+
+dados_co2 %>% View()
+
+```
+
+```{r}
+dados_co2_tidy <- dados_co2 %>% 
+  pivot_longer(
+    !ano, 
+   names_to = "mes",
+   values_to = "ppm"
+  )
+```
+
+```{r}
+write_csv(dados_co2_tidy, "dados/tidy/dados_co2_tidy.csv")
+```
+
+*e)*Ao passar dos anos a media esta subindo exponencialmente 
+
+```{r}
+co2_tidy <-  read_csv("dados/tidy/dados_co2_tidy.csv")
+View(co2_tidy)
+
+co2_tidy %>% glimpse()
+```
+
+```{r}
+#-------------------------------------------
+co2_tidy %>% # conjunto de dados
+group_by(ano) %>% # agrupa por ano
+summarise(media = round(mean(ppm), 2)) %>% # calcula a média da variavel ppm em cada grupo
+ggplot(aes(ano, media, group = 1)) + # cria o gráfico
+geom_line(color = "blue", size = 1)
+#-------------------------------------------
+```
+
+**Questão 07** Considere a Tabela 1:
+
+**a**
+
+```{r}
+tibble(
+  nome = c("Ana", "Ludimilla", "Cristina", "Tereza", "Patrícia", "Mariana", "Ana Paula", "Dirce"),
+  altura = c("155", "158", "162", "168", "170", "170", "172", "173"),
+  peso = c("50", "61", "65", "68", "69", "65", "82", "79")
+)
+```
+
+**b**
+
+peso e altura.
+
+**c**
+
+Peso:
+Mediana= 66,5
+Média= 67,375
+Desvio padrão= 9,39
+
+Altura:
+Mediana= 169 
+Média = 166
+Desvio padrão= 6,34
+
+**d)**
+Conforme a altura aumenta, o peso tende a aumentar proporcionalmente.
+
+```{r}
+plot(tabela_1_4_$"peso", tabela_1_4_$"altura" , col = "blue", xlab = "peso", ylab = "altura", main = "tabela 1")
+
+```
 
